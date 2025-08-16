@@ -550,74 +550,81 @@ class Game {
   }
 
 
-
-
-
-
-
-
+  
   move_player(dx: number, dy: number) {
     if (!this.player.canMove() || this.game_over) return;
     
     const new_x = this.player.x + dx;
     const new_y = this.player.y + dy;
     
-    // ... (existing direction and boundary checking code)
-
+    if (dx > 0) {
+      this.player.last_direction = "right";
+    } else if (dx < 0) {
+      this.player.last_direction = "left";
+    }
+    
+    if (new_x < 0 || new_y < 0 || new_x >= this.map_width || new_y >= this.map_height) {
+      this.message = "You can't go that way!";
+      this.message_time = Date.now();
+      return;
+    }
+    
+    if (this.tiles[new_y][new_x].type === 0) {
+      this.message = "You can't walk through walls!";
+      this.message_time = Date.now();
+      return;
+    }
+    
     const itemIndex = this.items.findIndex(item => item.x === new_x && item.y === new_y);
     if (itemIndex !== -1) {
       const item = this.items[itemIndex];
       
-      // Handle item pickup
-      switch(item.type) {
-        case "gold":
-          this.player.gold += item.value;
-          const points = item.value * 10;
-          this.player.score += points;
-          this.message = `Picked up ${item.value} gold! (+${points} points)`;
-          break;
-          
-        case "potion":
-          const currentElapsed = Date.now() - this.gameStartTime;
-          const newRemaining = (this.gameDuration - currentElapsed) + 30000;
-          this.gameDuration = currentElapsed + newRemaining;
-          const potionPoints = 50;
-          this.player.score += potionPoints;
-          this.message = `Picked up a time potion! (+30 sec) (+${potionPoints} points)`;
-          break;
-          
-        case "weapon":
-        case "armor":
-          const equipmentPoints = 100;
-          this.player.score += equipmentPoints;
-          this.message = `Picked up ${item.name}! (+${equipmentPoints} points)`;
-          break;
-      }
-      
-      // Update score manager if exists
-      if (this.scoreManager) {
-        const pointsToAdd = {
-          "gold": item.value * 10,
-          "potion": 50,
+      if (item.type === "gold") {
+        this.player.gold += item.value;
+        const points = item.value * 10;
+        this.player.score += points;
+        this.message = `Picked up ${item.value} gold! (+${points} points)`;
+        
+        // Add to pending score for blockchain submission
+        if (this.scoreManager) {
+          this.scoreManager.addScore(points);
+          this.scoreManager.addTransaction(1);
+          this.lastSubmittedScore = this.player.score;
+        }
+      } else if (item.type === "potion") {
+        const currentElapsed = Date.now() - this.gameStartTime;
+        const newRemaining = (this.gameDuration - currentElapsed) + 30000;
+        this.gameDuration = currentElapsed + newRemaining;
+        const points = 50;
+        this.player.score += points;
+        this.message = `Picked up a time potion! (+30 sec) (+${points} points)`;
+        
+        if (this.scoreManager) {
+          this.scoreManager.addScore(points);
+          this.scoreManager.addTransaction(1);
+          this.lastSubmittedScore = this.player.score;
+        }
+      } else {
+        const points = {
           "weapon": 100,
           "armor": 100
         }[item.type] || 0;
         
-        this.scoreManager.addScore(pointsToAdd);
-        this.scoreManager.addTransaction(1);
-        this.lastSubmittedScore = this.player.score;
+        this.player.score += points;
+        this.message = `Picked up ${item.name}! (+${points} points)`;
+        
+        if (this.scoreManager) {
+          this.scoreManager.addScore(points);
+          this.scoreManager.addTransaction(1);
+          this.lastSubmittedScore = this.player.score;
+        }
       }
       
       this.items.splice(itemIndex, 1);
       this.message_time = Date.now();
-      
-      // Return after picking up item without moving
-      return;
     }
     
-    // Only proceed with movement if not picking up an item
     if (new_x === this.exit.x && new_y === this.exit.y) {
-      // Handle exit logic
       const exitPoints = 500 * this.dungeon_level;
       this.player.score += exitPoints;
       this.dungeon_level += 1;
