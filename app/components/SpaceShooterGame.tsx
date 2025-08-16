@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-
 "use client";
 import { useEffect, useRef, useState } from 'react';
 import { usePrivy,  CrossAppAccountWithMetadata } from '@privy-io/react-auth';
@@ -549,125 +546,101 @@ class Game {
     this.camera_y = Math.max(0, Math.min(this.camera_y, max_y));
   }
 
-
-
-
-
-
-
-
   move_player(dx: number, dy: number) {
-      if (!this.player.canMove() || this.game_over) return;
+    if (!this.player.canMove() || this.game_over) return;
+    
+    const new_x = this.player.x + dx;
+    const new_y = this.player.y + dy;
+    
+    if (dx > 0) {
+      this.player.last_direction = "right";
+    } else if (dx < 0) {
+      this.player.last_direction = "left";
+    }
+    
+    if (new_x < 0 || new_y < 0 || new_x >= this.map_width || new_y >= this.map_height) {
+      this.message = "You can't go that way!";
+      this.message_time = Date.now();
+      return;
+    }
+    
+    if (this.tiles[new_y][new_x].type === 0) {
+      this.message = "You can't walk through walls!";
+      this.message_time = Date.now();
+      return;
+    }
+    
+    const itemIndex = this.items.findIndex(item => item.x === new_x && item.y === new_y);
+    if (itemIndex !== -1) {
+      const item = this.items[itemIndex];
       
-      const new_x = this.player.x + dx;
-      const new_y = this.player.y + dy;
-      
-      if (dx > 0) {
-        this.player.last_direction = "right";
-      } else if (dx < 0) {
-        this.player.last_direction = "left";
-      }
-      
-      if (new_x < 0 || new_y < 0 || new_x >= this.map_width || new_y >= this.map_height) {
-        this.message = "You can't go that way!";
-        this.message_time = Date.now();
-        return;
-      }
-      
-      if (this.tiles[new_y][new_x].type === 0) {
-        this.message = "You can't walk through walls!";
-        this.message_time = Date.now();
-        return;
-      }
-      
-      const itemIndex = this.items.findIndex(item => item.x === new_x && item.y === new_y);
-      if (itemIndex !== -1) {
-        const item = this.items[itemIndex];
+      if (item.type === "gold") {
+        this.player.gold += item.value;
+        const points = item.value * 10;
+        this.player.score += points;
+        this.message = `Picked up ${item.value} gold! (+${points} points)`;
         
-        if (item.type === "gold") {
-          this.player.gold += item.value;
-          const points = item.value * 10;
-          this.player.score += points;
-          this.message = `Picked up ${item.value} gold! (+${points} points)`;
-          
-          // Add to pending score for blockchain submission
-          if (this.scoreManager) {
-            this.scoreManager.addScore(points);
-            this.scoreManager.addTransaction(1);
-            this.lastSubmittedScore = this.player.score;
-          }
-        } else if (item.type === "potion") {
-          const currentElapsed = Date.now() - this.gameStartTime;
-          const newRemaining = (this.gameDuration - currentElapsed) + 30000;
-          this.gameDuration = currentElapsed + newRemaining;
-          const points = 50;
-          this.player.score += points;
-          this.message = `Picked up a time potion! (+30 sec) (+${points} points)`;
-          
-          if (this.scoreManager) {
-            this.scoreManager.addScore(points);
-            this.scoreManager.addTransaction(1);
-            this.lastSubmittedScore = this.player.score;
-          }
-        } else {
-          const points = {
-            "weapon": 100,
-            "armor": 100
-          }[item.type] || 0;
-          
-          this.player.score += points;
-          this.message = `Picked up ${item.name}! (+${points} points)`;
-          
-          if (this.scoreManager) {
-            this.scoreManager.addScore(points);
-            this.scoreManager.addTransaction(1);
-            this.lastSubmittedScore = this.player.score;
-          }
-        }
-        
-        this.items.splice(itemIndex, 1);
-        this.message_time = Date.now();
-        
-        // Move to the item's position
-        this.player.x = new_x;
-        this.player.y = new_y;
-        this.player.recordMove();
-        this.update_fov();
-        return;
-      }
-      
-      if (new_x === this.exit.x && new_y === this.exit.y) {
-        const exitPoints = 500 * this.dungeon_level;
-        this.player.score += exitPoints;
-        this.dungeon_level += 1;
-        this.message = `Descending to dungeon level ${this.dungeon_level}! (+${exitPoints} points)`;
-        this.message_time = Date.now();
-        
+        // Add to pending score for blockchain submission
         if (this.scoreManager) {
-          this.scoreManager.addScore(exitPoints);
+          this.scoreManager.addScore(points);
           this.scoreManager.addTransaction(1);
           this.lastSubmittedScore = this.player.score;
         }
+      } else if (item.type === "potion") {
+        const currentElapsed = Date.now() - this.gameStartTime;
+        const newRemaining = (this.gameDuration - currentElapsed) + 30000;
+        this.gameDuration = currentElapsed + newRemaining;
+        const points = 50;
+        this.player.score += points;
+        this.message = `Picked up a time potion! (+30 sec) (+${points} points)`;
         
-        this.generate_dungeon();
-        return;
+        if (this.scoreManager) {
+          this.scoreManager.addScore(points);
+          this.scoreManager.addTransaction(1);
+          this.lastSubmittedScore = this.player.score;
+        }
+      } else {
+        const points = {
+          "weapon": 100,
+          "armor": 100
+        }[item.type] || 0;
+        
+        this.player.score += points;
+        this.message = `Picked up ${item.name}! (+${points} points)`;
+        
+        if (this.scoreManager) {
+          this.scoreManager.addScore(points);
+          this.scoreManager.addTransaction(1);
+          this.lastSubmittedScore = this.player.score;
+        }
       }
       
-      this.player.x = new_x;
-      this.player.y = new_y;
-      this.player.recordMove();
-      this.update_fov();
+      this.items.splice(itemIndex, 1);
+      this.message_time = Date.now();
+    }
+    
+    if (new_x === this.exit.x && new_y === this.exit.y) {
+      const exitPoints = 500 * this.dungeon_level;
+      this.player.score += exitPoints;
+      this.dungeon_level += 1;
+      this.message = `Descending to dungeon level ${this.dungeon_level}! (+${exitPoints} points)`;
+      this.message_time = Date.now();
+      
+      if (this.scoreManager) {
+        this.scoreManager.addScore(exitPoints);
+        this.scoreManager.addTransaction(1);
+        this.lastSubmittedScore = this.player.score;
+      }
+      
+      this.generate_dungeon();
+      return;
+    }
+    
+    this.player.x = new_x;
+    this.player.y = new_y;
+    this.player.recordMove();
+    this.update_fov();
   }
-
-
-
-
-
-
-
-
-
-
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = BLACK;
