@@ -75,7 +75,7 @@ export default function ScoreDebugger({ playerAddress }: ScoreDebuggerProps) {
           
           <div className="space-y-2 text-xs">
             <div>
-              <strong>Player:</strong> {playerAddress.slice(0, 6)}...{playerAddress.slice(-4)}
+              <strong>Player:</strong> {playerAddress}
             </div>
             
             <div className="border-t border-gray-700 pt-2">
