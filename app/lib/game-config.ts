@@ -1,7 +1,7 @@
 // Game configuration
 export const GAME_CONFIG = {
   // Your registered game address
-  GAME_ADDRESS: '0xf5ea577f39318dc012d5Cbbf2d447FdD76c48523',
+  GAME_ADDRESS: '0xEEfa0c1605562B4Aa419821204836Aa1826775D4',
   
   // Game settings
   SCORE_SUBMISSION: {
@@ -14,8 +14,8 @@ export const GAME_CONFIG = {
   
   // Game metadata
   METADATA: {
-    name: 'Example Game',
-    url: 'https://mission7-example-game.vercel.app/',
+    name: 'Dark Dungeon',
+    url: 'https://mission7-final.vercel.app/',
     image: 'https://picsum.photos/536/354'
   }
 } as const;
