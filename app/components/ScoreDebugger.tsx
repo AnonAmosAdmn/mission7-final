@@ -103,7 +103,7 @@ export default function ScoreDebugger({ playerAddress }: ScoreDebuggerProps) {
             </div>
             
             <div className="border-t border-gray-700 pt-2 text-gray-400">
-              <div>Game: {GAME_CONFIG.GAME_ADDRESS.slice(0, 6)}...{GAME_CONFIG.GAME_ADDRESS.slice(-4)}</div>
+              <div>Game: {GAME_CONFIG.GAME_ADDRESS}</div>
             </div>
           </div>
         </div>
