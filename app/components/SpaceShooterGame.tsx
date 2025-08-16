@@ -958,7 +958,7 @@ export default function DungeonCrawlerGame({ username }: { username: string }) {
       }
       gameRef.current = null;
     };
-  }, [walletAddress, username, score]);
+  }, [walletAddress, username]);
 
   if (!walletAddress) {
     return (
