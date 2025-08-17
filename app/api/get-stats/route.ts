@@ -48,7 +48,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ ok: false, error: 'bad params' }, { status: 400 });
     }
 
-    // Toplam (tüm oyunlar)
     const [totalScore, totalTxs] = await Promise.all([
       publicClient.readContract({
         address: CONTRACT_ADDRESS,
@@ -64,7 +63,6 @@ export async function GET(req: NextRequest) {
       }) as Promise<bigint>,
     ]);
 
-    // Bu oyun: server signer (updatePlayerData gönderen cüzdan)
     const gameAddress = walletClient?.account?.address as Address | undefined;
 
     let game:

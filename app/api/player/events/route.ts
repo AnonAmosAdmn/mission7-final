@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
     const fromBlock =
       toBlock > BigInt(rangeInput) - 1n ? toBlock - (BigInt(rangeInput) - 1n) : zero;
 
-    // Parça parça log çek
+
     const logs: LogWithArgs[] = [];
     let start = fromBlock;
     const step = BigInt(chunkSize);
@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
       start = end + 1n;
     }
 
-    // yeni → eski
+
     logs.sort((a, b) => {
       const ab = a.blockNumber ?? 0n;
       const bb = b.blockNumber ?? 0n;

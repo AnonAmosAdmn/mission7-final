@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS as Address | undefined;
 
-// Tekil event (viem: getLogs -> "event" ve opsiyonel "args" kullanılır)
+
 const PlayerDataUpdated = parseAbiItem(
   'event PlayerDataUpdated(address indexed game, address indexed player, uint256 indexed scoreAmount, uint256 transactionAmount)'
 );
@@ -49,7 +49,6 @@ export async function GET(req: NextRequest) {
     const maxChunks = clampInt(url.searchParams.get('maxChunks'), 200, 1, 2_000);
     const withNames = (url.searchParams.get('withNames') ?? '1').toLowerCase() !== '0';
 
-    // "game" kapsamı için filtrelenecek adres
     const qGame = url.searchParams.get('game');
     const gameFromQuery = isAddress(qGame) ? (qGame as Address) : undefined;
     const serverSigner = walletClient?.account?.address as Address | undefined;
@@ -75,7 +74,6 @@ export async function GET(req: NextRequest) {
       fromBlock = toBlock > span ? toBlock - span : zero;
     }
 
-    // Logları parça parça çek (scope=game ise event arg filtresi uygula)
     const logs = await getLogsChunked({
       address: CONTRACT_ADDRESS,
       fromBlock,
@@ -88,7 +86,7 @@ export async function GET(req: NextRequest) {
 
     for (const log of logs) {
       const { game, player, scoreAmount, transactionAmount } = log.args;
-      // Eğer scope=game ise temkinli olun (theoretical double-check)
+
       if (scope === 'game' && gameAddress && game.toLowerCase() !== gameAddress.toLowerCase()) {
         continue;
       }
@@ -109,7 +107,7 @@ export async function GET(req: NextRequest) {
       })
       .slice(0, limit);
 
-    // İlk N için username çöz (adres→kullanıcı adı)
+
     let nameMap: Map<string, string | null> = new Map();
     if (withNames && top.length > 0) {
       const uniq = Array.from(new Set(top.map((r) => (r.player as string).toLowerCase())));
@@ -139,13 +137,13 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/** RPC limitine takılmadan parça parça getLogs */
+
 async function getLogsChunked(opts: {
   address: Address;
   fromBlock: bigint;
   toBlock: bigint;
   chunkSize: bigint;
-  args?: { game?: Address; player?: Address }; // sadece ihtiyacımız olan arg
+  args?: { game?: Address; player?: Address };
 }): Promise<Array<{ args: EventArgs }>> {
   const { address, fromBlock, toBlock, chunkSize, args } = opts;
   const out: Array<{ args: EventArgs }> = [];
@@ -160,14 +158,14 @@ async function getLogsChunked(opts: {
       toBlock: end,
       ...(args ? { args } : {}),
     });
-    // logs, viem sayesinde { args } içerir; EventArgs ile uyumludur
+
     for (const l of logs as Array<{ args: EventArgs }>) out.push(l);
     start = end + 1n;
   }
   return out;
 }
 
-/** Adresler için kullanıcı adlarını çözer (basit cache + küçük concurrency) */
+
 const nameCache = new Map<string, string | null>();
 async function resolveUsernames(addresses: string[], concurrency = 6) {
   const out = new Map<string, string | null>();
@@ -206,7 +204,7 @@ async function fetchUsername(wallet: string): Promise<string | null> {
   }
 }
 
-/** Upstream dönen objeden username/handle’ı güvenli biçimde seç */
+
 function pickUsername(obj: unknown): string | undefined {
   if (typeof obj !== 'object' || obj === null) return undefined;
   const o = obj as Record<string, unknown>;
@@ -229,7 +227,7 @@ function pickUsername(obj: unknown): string | undefined {
   return undefined;
 }
 
-/** Upstream’in “hasUsername/exists” bayraklarını güvenli okur */
+
 function pickHasUsername(obj: unknown): boolean {
   if (typeof obj !== 'object' || obj === null) return false;
   const o = obj as Record<string, unknown>;

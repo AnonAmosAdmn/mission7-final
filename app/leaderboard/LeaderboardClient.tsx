@@ -69,16 +69,14 @@ export default function LeaderboardClient() {
   }, [scope, range]);
 
   useEffect(() => {
-    // Sayfa ilk açıldığında mevcut URL paramlarıyla yükle
     void load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="lb">
       <div className="lb__head">
         <h1 className="lb__title">
-          Dungeon Hall of Champions <span aria-hidden>🏰</span>
+          Hall of Champions <span aria-hidden>🏰</span>
         </h1>
         <div className="lb__actions">
           <Link href="/" className="btn">
