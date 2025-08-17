@@ -2,7 +2,7 @@
 
 "use client";
 import { useState } from 'react';
-import SpaceShooterGame from './components/SpaceShooterGame';
+import DarkDungeon from './components/DarkDungeon';
 import AuthComponent from './components/AuthComponent';
 import ScoreDebugger from './components/ScoreDebugger';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ export default function Home() {
       <Link href="/leaderboard" className="btn">
         View Leaderboard
       </Link>
-      {playerAddress && <SpaceShooterGame username={playerAddress} />}
+      {playerAddress && <DarkDungeon username={playerAddress} />}
       {playerAddress && <ScoreDebugger playerAddress={playerAddress} />}
     </div>
   );
