@@ -16,7 +16,7 @@ export default function Home() {
       <Link href="/leaderboard" className="btn">
         View Leaderboard
       </Link>
-      <SpaceShooterGame username={playerAddress} />
+      {playerAddress && <SpaceShooterGame username={playerAddress} />}
       {playerAddress && <ScoreDebugger playerAddress={playerAddress} />}
     </div>
   );
