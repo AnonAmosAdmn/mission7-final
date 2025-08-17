@@ -264,7 +264,7 @@ class Game {
   wall_color: string;
   floor_color: string;
   game_over: boolean;
-  gameDuration: number = 1 * 60 * 1000; // 1 minute in milliseconds
+  gameDuration: number = 2 * 60 * 1000; // 1 minute in milliseconds
   gameStartTime: number = 0;
   timeRemaining: number = 0;
   timerInterval: NodeJS.Timeout | null = null;
