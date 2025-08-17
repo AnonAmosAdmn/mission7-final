@@ -20,7 +20,7 @@ export default function LeaderboardClient() {
   const params = useSearchParams();
 
   const initialScope = (params.get('scope') === 'all' ? 'all' : 'game') as 'game' | 'all';
-  const initialRange = Math.max(1000, Number(params.get('range') ?? 10000));
+  const initialRange = Math.max(1000, Number(params.get('range') ?? 100000));
   const highlight = params.get('highlight')?.toLowerCase();
 
   const [scope, setScope] = useState<'game' | 'all'>(initialScope);

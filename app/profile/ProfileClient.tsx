@@ -120,7 +120,7 @@ export default function ProfileClient() {
               <span className="icon">🏆</span> Hall of Champions
             </button>
             <button className="btn" onClick={() => router.push('/')}>
-              <span className="icon">🏰</span> Keep
+              <span className="icon">🏰</span> Back to Dungeon
             </button>
           </div>
         </div>

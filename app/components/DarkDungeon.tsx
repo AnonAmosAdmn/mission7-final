@@ -730,7 +730,6 @@ class Game {
     ctx.fillText(`Gold Collected: ${this.player.gold}`, SCREEN_WIDTH / 2, 240);
     
     ctx.font = '36px Arial';
-    ctx.fillText('SCORE SUBMISSION', SCREEN_WIDTH / 2, 300);
     
     ctx.font = '20px Arial';
     if (this.isSubmittingScore) {
