@@ -5,6 +5,7 @@ import { useState } from 'react';
 import SpaceShooterGame from './components/SpaceShooterGame';
 import AuthComponent from './components/AuthComponent';
 import ScoreDebugger from './components/ScoreDebugger';
+import Link from 'next/link';
 
 export default function Home() {
   const [playerAddress, setPlayerAddress] = useState<string>("");
@@ -12,6 +13,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
       <AuthComponent onAddressChange={setPlayerAddress} />
+      <Link href="/leaderboard" className="btn">
+        View Leaderboard
+      </Link>
       <SpaceShooterGame username={playerAddress} />
       {playerAddress && <ScoreDebugger playerAddress={playerAddress} />}
     </div>
