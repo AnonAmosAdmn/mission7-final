@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
       <AuthComponent onAddressChange={setPlayerAddress} />
-      <Link href="/leaderboard" className="btn">
+      <Link href="https://monad-games-id-site.vercel.app/leaderboard?page=1&gameId=21" className="btn">
         View Leaderboard
       </Link>
       {playerAddress && <DarkDungeon username={playerAddress} />}
