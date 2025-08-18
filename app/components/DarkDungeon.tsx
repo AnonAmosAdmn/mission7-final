@@ -911,8 +911,6 @@ class Game {
           } else {
               this.message = `Attacked ${enemy.name} for ${this.player.damage} damage!`;
           }
-      } else {
-          this.message = `Cannot attack ${enemy.name} yet!`;
       }
       
       this.message_time = Date.now();
