@@ -71,10 +71,10 @@ const ENEMY_HEALTH = {
 };
 
 const ENEMY_DAMAGE = {
-  goblin: 5,
-  ghost: 3,
-  zombie: 8,
-  orc: 12
+  goblin: 3,
+  ghost: 2,
+  zombie: 4,
+  orc: 6
 };
 
 const ENEMY_SCORE = {
@@ -85,10 +85,10 @@ const ENEMY_SCORE = {
 };
 
 const ENEMY_AGGRESSION_RANGE = {
-  goblin: 5,   // Short range
-  ghost: 8,    // Medium range
-  zombie: 4,   // Very short range
-  orc: 10      // Long range
+  goblin: 3,   // Short range
+  ghost: 4,    // Medium range
+  zombie: 2,   // Very short range
+  orc: 5      // Long range
 };
 
 
@@ -910,6 +910,38 @@ class Game {
               }
           } else {
               this.message = `Attacked ${enemy.name} for ${this.player.damage} damage!`;
+              
+              // Enemy counter-attacks immediately
+              if (enemy.canAttack()) {
+                  const isPlayerDead = this.player.takeDamage(enemy.damage);
+                  enemy.recordAttack();
+                  
+                  if (isPlayerDead) {
+                      this.message = `You were killed by ${enemy.name} while attacking!`;
+                      this.message_time = Date.now();
+                      this.gameOver();
+                      return;
+                  } else {
+                      this.message += ` ${enemy.name} hit you back for ${enemy.damage} damage!`;
+                  }
+              }
+          }
+      } else {
+          // Player can't attack yet, but enemy can still attack if player moves into them
+          if (enemy.canAttack()) {
+              const isPlayerDead = this.player.takeDamage(enemy.damage);
+              enemy.recordAttack();
+              
+              if (isPlayerDead) {
+                  this.message = `You were killed by ${enemy.name}!`;
+                  this.message_time = Date.now();
+                  this.gameOver();
+                  return;
+              } else {
+                  this.message = `${enemy.name} hit you for ${enemy.damage} damage!`;
+              }
+          } else {
+              this.message = "You're too tired to attack!";
           }
       }
       
@@ -972,20 +1004,9 @@ class Game {
         continue;
       }
       
-      // 50% chance to move (optional, can remove if you want all enemies to move when in range)
-      if (Math.random() < 0.5) continue;
-      
-      // Calculate movement direction
-      const dx = Math.sign(dxToPlayer);
-      const dy = Math.sign(dyToPlayer);
-      
-      // Try to move either horizontally or vertically (not both)
-      const moveHorizontal = Math.random() < 0.5;
-      const new_x = moveHorizontal ? enemy.x + dx : enemy.x;
-      const new_y = moveHorizontal ? enemy.y : enemy.y + dy;
-      
       // Attack if adjacent to player
-      if (new_x === this.player.x && new_y === this.player.y) {
+      const isAdjacent = Math.abs(dxToPlayer) <= 1 && Math.abs(dyToPlayer) <= 1;
+      if (isAdjacent) {
         if (enemy.canAttack()) {
           const isPlayerDead = this.player.takeDamage(enemy.damage);
           enemy.recordAttack();
@@ -1000,14 +1021,43 @@ class Game {
             this.message_time = Date.now();
           }
         }
-        continue;
+        continue; // Skip movement if attacking
+      }
+      
+      // Calculate movement direction using a simple pathfinding approach
+      let dx = 0;
+      let dy = 0;
+      
+      // Prioritize the axis with the greater distance
+      if (Math.abs(dxToPlayer) > Math.abs(dyToPlayer)) {
+        dx = Math.sign(dxToPlayer);
+      } else {
+        dy = Math.sign(dyToPlayer);
+      }
+      
+      // Try the primary direction first
+      let new_x = enemy.x + dx;
+      let new_y = enemy.y + dy;
+      
+      // If primary direction is blocked, try the secondary direction
+      if (dx !== 0 && (new_x < 0 || new_x >= this.map_width || 
+          this.tiles[new_y][new_x].type === 0 ||
+          this.enemies.some(e => e.x === new_x && e.y === new_y) ||
+          this.items.some(i => i.x === new_x && i.y === new_y))) {
+        // Try moving vertically instead
+        dx = 0;
+        dy = Math.sign(dyToPlayer);
+        new_x = enemy.x;
+        new_y = enemy.y + dy;
       }
       
       // Validate and execute move
       if (new_x >= 0 && new_x < this.map_width && 
           new_y >= 0 && new_y < this.map_height &&
           this.tiles[new_y][new_x].type !== 0 &&
-          !this.enemies.some(e => e.x === new_x && e.y === new_y)) {
+          !this.enemies.some(e => e.x === new_x && e.y === new_y) &&
+          !this.items.some(i => i.x === new_x && i.y === new_y) &&
+          !(new_x === this.player.x && new_y === this.player.y)) {
         enemy.x = new_x;
         enemy.y = new_y;
       }
