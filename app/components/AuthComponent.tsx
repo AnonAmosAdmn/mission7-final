@@ -74,7 +74,7 @@ function PrivyAuth({ onAddressChange }: { onAddressChange: (address: string) => 
       {accountAddress ? (
         <>
           {hasUsername && monadUser ? (
-            <span className="bg-white text-black px-6 py-3 rounded-lg shadow hover:bg-white transition">Welcome, {monadUser.username} !</span>
+            <span className="bg-white text-black px-6 py-3 rounded-lg shadow hover:bg-white transition"> {monadUser.username} </span>
           ) : (
             <a 
               href="https://monad-games-id-site.vercel.app"
@@ -82,7 +82,7 @@ function PrivyAuth({ onAddressChange }: { onAddressChange: (address: string) => 
               rel="noopener noreferrer"
               className="bg-yellow-600 text-white px-6 py-3 rounded-lg shadow hover:bg-yellow-700 transition"
             >
-              Register Username
+              Register
             </a>
           )}
         </>

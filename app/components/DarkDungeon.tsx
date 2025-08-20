@@ -4,7 +4,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePrivy,  CrossAppAccountWithMetadata } from '@privy-io/react-auth';
 import { ScoreSubmissionManager } from '../lib/score-api';
-import { GAME_CONFIG } from '../lib/game-config';
 
 
 // Base64 sprite placeholders

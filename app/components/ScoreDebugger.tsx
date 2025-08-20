@@ -55,7 +55,7 @@ export default function ScoreDebugger({ playerAddress }: ScoreDebuggerProps) {
     <div className="fixed bottom-4 right-4 z-50">
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className="bg-purple-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-700 mb-2"
+        className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition"
       >
         {isVisible ? 'Hide' : 'Show'} Blockchain Stats
       </button>
