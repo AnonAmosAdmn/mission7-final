@@ -1502,7 +1502,6 @@ export default function DungeonCrawlerGame({ username }: { username: string }) {
       
       <div className="mt-4 text-white text-sm">
         <p>WASD: Move • R: Restart</p>
-        <p>Game: {GAME_CONFIG.METADATA.name}</p>
       </div>
     </div>
   );
