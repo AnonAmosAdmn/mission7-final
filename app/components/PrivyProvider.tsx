@@ -15,6 +15,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <PrivyProvider
       appId={privyAppId}
       config={{
+        // Appearance configuration
+        appearance: {
+          theme: "dark", // or "light", or custom theme object
+          accentColor: "#6F3FF5",
+          logo: "/logo.png",
+        },
         loginMethodsAndOrder: {
           // Don't forget to enable Monad Games ID support in:
           // Global Wallet > Integrations > Monad Games ID (click on the slide to enable)
