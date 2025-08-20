@@ -1286,8 +1286,6 @@ class Game {
     ctx.fillStyle = GREEN;
     ctx.fillText(`Score: ${this.player.score}`, centerX + 200, textY);
     
-    ctx.fillStyle = WHITE;
-    ctx.fillText("WASD: Move", centerX, SCREEN_HEIGHT - 20);
     
     ctx.textAlign = "left";
   }
