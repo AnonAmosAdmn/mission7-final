@@ -15,7 +15,7 @@ export const GAME_CONFIG = {
   // Game metadata
   METADATA: {
     name: 'Dark Dungeon',
-    url: 'https://mission7-final.vercel.app/',
-    image: 'https://picsum.photos/536/354'
+    url: 'https://dark-dungeon-mission7.vercel.app/',
+    image: '/logo.png'
   }
 } as const;
