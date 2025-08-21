@@ -44,7 +44,7 @@ const DARK_GRAY = '#323232';
 const STONE = '#787878';
 
 // Game constants
-const GRID_SIZE = 32;
+const GRID_SIZE = 48;
 const SCREEN_WIDTH = 1600;
 const SCREEN_HEIGHT = 1400;
 const MINIMAP_WIDTH = 200;
@@ -1203,18 +1203,18 @@ class Game {
     ctx.fillStyle = WHITE;
     ctx.font = '48px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText('GAME OVER!', SCREEN_WIDTH / 2, 100);
+    ctx.fillText('GAME OVER!', SCREEN_WIDTH / 2, 300);
     ctx.font = '24px Arial';
     
     if (this.player.health <= 0) {
-        ctx.fillText('You were defeated in battle', SCREEN_WIDTH / 2, 140);
+        ctx.fillText('You were defeated in battle', SCREEN_WIDTH / 2, 340);
     } else {
-        ctx.fillText('Your adventure has reached its limit', SCREEN_WIDTH / 2, 140);
+        ctx.fillText('Your adventure has reached its limit', SCREEN_WIDTH / 2, 340);
     }
     
-    ctx.fillText(`Final Score: ${this.player.score}`, SCREEN_WIDTH / 2, 180);
-    ctx.fillText(`Level Reached: ${this.dungeon_level}`, SCREEN_WIDTH / 2, 210);
-    ctx.fillText(`Gold Collected: ${this.player.gold}`, SCREEN_WIDTH / 2, 240);
+    ctx.fillText(`Final Score: ${this.player.score}`, SCREEN_WIDTH / 2, 380);
+    ctx.fillText(`Level Reached: ${this.dungeon_level}`, SCREEN_WIDTH / 2, 410);
+    ctx.fillText(`Gold Collected: ${this.player.gold}`, SCREEN_WIDTH / 2, 440);
     
     
     ctx.font = '36px Arial';
@@ -1222,15 +1222,15 @@ class Game {
     ctx.font = '20px Arial';
     if (this.isSubmittingScore) {
       ctx.fillStyle = YELLOW;
-      ctx.fillText('Submitting score to blockchain...', SCREEN_WIDTH / 2, 350);
+      ctx.fillText('Submitting score to blockchain...', SCREEN_WIDTH / 2, 550);
     } else {
       ctx.fillStyle = GREEN;
-      ctx.fillText('Score submitted successfully!', SCREEN_WIDTH / 2, 350);
+      ctx.fillText('Score submitted successfully!', SCREEN_WIDTH / 2, 600);
     }
     
     ctx.fillStyle = WHITE;
     ctx.font = '24px Arial';
-    ctx.fillText('Press R to restart', SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100);
+    ctx.fillText('Press R to restart', SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200);
     
     ctx.textAlign = 'left';
   }
