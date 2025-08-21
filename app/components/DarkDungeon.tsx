@@ -1212,9 +1212,9 @@ class Game {
         ctx.fillText('Your adventure has reached its limit', SCREEN_WIDTH / 2, 340);
     }
     
-    ctx.fillText(`Final Score: ${this.player.score}`, SCREEN_WIDTH / 2, 380);
-    ctx.fillText(`Level Reached: ${this.dungeon_level}`, SCREEN_WIDTH / 2, 410);
-    ctx.fillText(`Gold Collected: ${this.player.gold}`, SCREEN_WIDTH / 2, 440);
+    ctx.fillText(`Final Score: ${this.player.score}`, SCREEN_WIDTH / 2, 420);
+    ctx.fillText(`Level Reached: ${this.dungeon_level}`, SCREEN_WIDTH / 2, 460);
+    ctx.fillText(`Gold Collected: ${this.player.gold}`, SCREEN_WIDTH / 2, 490);
     
     
     ctx.font = '36px Arial';
