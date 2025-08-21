@@ -28,11 +28,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
-      {/* Background Music */}
+
       <audio ref={audioRef} src="/background_music.mp3" loop />
+
       {!playerAddress && <Image src="/logo.png" alt="Dark Dungeon Logo" width={900} height={600} />}
-      <div className="flex flex-row items-center gap-x-2">
-        {/* Toggle Button */}
+      {!playerAddress && <AuthComponent onAddressChange={setPlayerAddress} />}
+
+      <div className="fixed bottom-4 flex flex-row items-center gap-x-2">
         {playerAddress && 
           <button
             onClick={toggleMusic}
@@ -43,14 +45,14 @@ export default function Home() {
             {isPlaying ? "⏸" : "🎵"}
           </button>
         }
-        <AuthComponent onAddressChange={setPlayerAddress} />
+        {playerAddress && <AuthComponent onAddressChange={setPlayerAddress} />}
       </div>
 
       {playerAddress && (
-        <div className="fixed bottom-6 left-4 z-50">
+        <div className="fixed bottom-7 left-4 z-50">
           <Link
             href="https://monad-games-id-site.vercel.app/leaderboard?page=1&gameId=21"
-            className="bg-blue-600 text-white mb-2 px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white mb-2 px-6 py-4 rounded-lg shadow hover:bg-blue-700 transition"
           >
             Leaderboard
           </Link>
@@ -58,7 +60,9 @@ export default function Home() {
       )}
 
       {playerAddress && <DarkDungeon username={playerAddress} />}
+
       {playerAddress && <ScoreDebugger playerAddress={playerAddress} />}
+
     </div>
   );
 }
