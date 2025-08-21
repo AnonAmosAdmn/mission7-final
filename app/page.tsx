@@ -30,7 +30,7 @@ export default function Home() {
     <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
       {/* Background Music */}
       <audio ref={audioRef} src="/background_music.mp3" loop />
-      {!playerAddress && <Image src="/logo.png" alt="Dark Dungeon Logo" width={600} height={400} />}
+      {!playerAddress && <Image src="/logo.png" alt="Dark Dungeon Logo" width={900} height={600} />}
       <div className="flex flex-row items-center gap-x-2">
         {/* Toggle Button */}
         {playerAddress && 
