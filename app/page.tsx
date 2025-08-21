@@ -4,19 +4,25 @@ import DarkDungeon from "./components/DarkDungeon";
 import AuthComponent from "./components/AuthComponent";
 import ScoreDebugger from "./components/ScoreDebugger";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Home() {
   const [playerAddress, setPlayerAddress] = useState<string>("");
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const playMusic = () => {
-    if (audioRef.current) {
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
       audioRef.current.volume = 0.5; // adjust volume
       audioRef.current.play().catch((err) => {
         console.log("Could not play audio:", err);
       });
     }
+
+    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -24,16 +30,20 @@ export default function Home() {
       {/* Background Music */}
       <audio ref={audioRef} src="/background_music.mp3" loop />
 
-      {/* Play Button */}
-      <button
-        onClick={playMusic}
-        className="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition"
-      >
-        🎵 Play Music
-      </button>
-
-      <Image src="/logo.png" alt="Dark Dungeon Logo" width={300} height={200} />
-      <AuthComponent onAddressChange={setPlayerAddress} />
+      <div className="flex flex-row items-center gap-x-2">
+        {/* Toggle Button */}
+        {playerAddress && 
+          <button
+            onClick={toggleMusic}
+            className={`mt-4 px-6 py-3 rounded-lg shadow transition ${
+              isPlaying ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"
+            } text-white`}
+          >
+            {isPlaying ? "⏸" : "🎵"}
+          </button>
+        }
+        <AuthComponent onAddressChange={setPlayerAddress} />
+      </div>
 
       {playerAddress && (
         <div className="fixed bottom-4 left-4 z-50">
