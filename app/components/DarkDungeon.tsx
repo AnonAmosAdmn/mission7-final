@@ -44,7 +44,7 @@ const DARK_GRAY = '#323232';
 const STONE = '#787878';
 
 // Game constants
-const GRID_SIZE = 48;
+const GRID_SIZE = 40;
 const SCREEN_WIDTH = 1600;
 const SCREEN_HEIGHT = 1400;
 const MINIMAP_WIDTH = 200;

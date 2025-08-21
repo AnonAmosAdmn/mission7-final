@@ -51,7 +51,7 @@ export default function Home() {
       {playerAddress && (
         <div className="fixed bottom-7 left-4 z-50">
           <Link
-            href="https://monad-games-id-site.vercel.app/leaderboard?page=1&gameId=21"
+            href="https://monad-games-id-site.vercel.app/leaderboard?page=1&gameId=21&sortBy=scores"
             className="bg-blue-600 text-white mb-2 px-6 py-4 rounded-lg shadow hover:bg-blue-700 transition"
           >
             Leaderboard
