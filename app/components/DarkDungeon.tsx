@@ -46,10 +46,10 @@ const STONE = '#787878';
 // Game constants
 const GRID_SIZE = 32;
 const SCREEN_WIDTH = 1600;
-const SCREEN_HEIGHT = 1200;
+const SCREEN_HEIGHT = 1400;
 const MINIMAP_WIDTH = 200;
 const MINIMAP_HEIGHT = 200;
-const MINIMAP_CELL_SIZE = 3;
+const MINIMAP_CELL_SIZE = 2;
 const MINIMAP_POSITION = { x: SCREEN_WIDTH - MINIMAP_WIDTH - 10, y: 10 };
 
 const ENEMY_COLORS = {
@@ -81,10 +81,10 @@ const ENEMY_SCORE = {
 };
 
 const ENEMY_AGGRESSION_RANGE = {
-  goblin: 2,   // Short range
-  ghost: 3,    // Medium range
-  zombie: 4,   // Very short range
-  orc: 5      // Long range
+  goblin: 2,
+  ghost: 3,
+  zombie: 4,
+  orc: 5
 };
 
 
