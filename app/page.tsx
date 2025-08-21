@@ -11,17 +11,17 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.5; // lower volume a bit
+    if (playerAddress && audioRef.current) {
+      audioRef.current.volume = 0.5;
       audioRef.current.play().catch((err) => {
-        console.log("Autoplay blocked until user interacts:", err);
+        console.log("Could not play audio:", err);
       });
     }
-  }, []);
+  }, [playerAddress]); // run when player logs in
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-8">
-      {/* Background Music */}
+      {/* Background Music (only plays after login) */}
       <audio ref={audioRef} src="/background_music.mp3" loop />
 
       <Image src="/logo.png" alt="Dark Dungeon Logo" width={300} height={200} />
