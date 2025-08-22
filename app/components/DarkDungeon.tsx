@@ -957,8 +957,6 @@ class Game {
               } else {
                   this.message = `${enemy.name} hit you for ${enemy.damage} damage!`;
               }
-          } else {
-              this.message = "You're too tired to attack!";
           }
       }
       
