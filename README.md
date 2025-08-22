@@ -1,8 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-.env
+# .env
+
 CONTRACT_ADDRESS=
+
 NEXT_PUBLIC_PRIVY_APP_ID=
+
 WALLET_PRIVATE_KEY=
 
 
