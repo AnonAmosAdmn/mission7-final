@@ -5,10 +5,12 @@ import AuthComponent from "./components/AuthComponent";
 import ScoreDebugger from "./components/ScoreDebugger";
 import Link from "next/link";
 import Image from "next/image";
+import Leaderboard from "./components/Leaderboard";
 
 export default function Home() {
   const [playerAddress, setPlayerAddress] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const toggleMusic = () => {
@@ -17,7 +19,7 @@ export default function Home() {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.volume = 0.5; // adjust volume
+      audioRef.current.volume = 0.5;
       audioRef.current.play().catch((err) => {
         console.log("Could not play audio:", err);
       });
@@ -49,14 +51,26 @@ export default function Home() {
       </div>
 
       {playerAddress && (
-        <div className="fixed bottom-7 left-4 z-50">
-          <Link
-            href="https://monad-games-id-site.vercel.app/leaderboard?page=1&gameId=21&sortBy=scores"
-            className="bg-blue-600 text-white mb-2 px-6 py-4 rounded-lg shadow hover:bg-blue-700 transition"
+        <div className="fixed bottom-7 left-4 z-50 flex flex-col gap-2">
+          <button
+            onClick={() => setShowLeaderboard(true)}
+            className="bg-blue-600 text-white px-6 py-4 rounded-lg shadow hover:bg-blue-700 transition"
           >
             Leaderboard
-          </Link>
+          </button>
         </div>
+      )}
+
+      {showLeaderboard && (
+        <Leaderboard 
+          onClose={() => setShowLeaderboard(false)}
+          // Without score tracking, just show the wallet address
+          currentPlayerData={playerAddress ? {
+            score: 0,
+            username: playerAddress.slice(0, 8), // Shortened address as username
+            walletAddress: playerAddress
+          } : undefined}
+        />
       )}
 
       {playerAddress && <DarkDungeon username={playerAddress} />}
