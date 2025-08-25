@@ -54,7 +54,7 @@ export default function Home() {
         <div className="fixed bottom-4 left-4 z-50 flex flex-col gap-2">
           <button
             onClick={() => setShowLeaderboard(true)}
-            className="bg-blue-600 text-white px-6 py-4 rounded-lg shadow hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition"
           >
             Leaderboard
           </button>
