@@ -56,7 +56,7 @@ export default function Leaderboard({ onClose, currentPlayerData }: LeaderboardP
       
       for (const proxy of corsProxies) {
         try {
-          const url = `${proxy}https://monad-games-id-site.vercel.app/api/leaderboard?page=${page}&gameId=21&sortBy=scores&t=${Date.now()}`;
+          const url = `${proxy}https://monad-games-id-site.vercel.app/api/leaderboard?page=${page}&gameId=135&sortBy=scores&t=${Date.now()}`;
           
           const response = await fetch(url, {
             headers: proxy ? {} : {
