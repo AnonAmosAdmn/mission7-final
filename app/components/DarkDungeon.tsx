@@ -74,10 +74,10 @@ const ENEMY_DAMAGE = {
 };
 
 const ENEMY_SCORE = {
-  goblin: 500,
-  ghost: 300,
-  zombie: 700,
-  orc: 1000
+  goblin: 300,
+  ghost: 200,
+  zombie: 400,
+  orc: 500
 };
 
 const ENEMY_AGGRESSION_RANGE = {
