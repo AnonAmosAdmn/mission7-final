@@ -15,7 +15,29 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Dark Dungeon",
-  description: "Proccedurally generated dungeon crawler game with blockchain integration",
+  description: "Procedurally generated dungeon crawler game with blockchain integration",
+  openGraph: {
+    title: "Dark Dungeon",
+    description: "Procedurally generated dungeon crawler game with blockchain integration",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Dark Dungeon - Procedurally generated dungeon crawler",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dark Dungeon",
+    description: "Procedurally generated dungeon crawler game with blockchain integration",
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
